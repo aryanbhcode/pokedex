@@ -112,7 +112,7 @@ export default function Home() {
         <div className="container mx-auto flex items-center justify-between p-4">
           {/* Logo Section */}
           <div className="flex items-center gap-2">
-            <img src="/pokeball.png" alt="Pokeball" className="w-10 h-10" />
+            <img src="pokeball.png" alt="Pokeball" className="w-10 h-10" />
             <h1 className="text-2xl font-bold">Pokédex</h1>
           </div>
           <nav>
@@ -141,7 +141,7 @@ export default function Home() {
       <section className="text-center py-12 bg-gradient-to-r from-purple-700 via-indigo-900 to-blue-800 text-white flex flex-col items-center p-6">
         <img
           className="flex flex-col items-center mb-8 w-20 h-20 mb-6"
-          src="/pokepng.png"
+          src="pokepng.png"
           alt="Pokeball"
         />
         <h2 className="text-4xl font-extrabold mb-4">

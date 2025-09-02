@@ -8,7 +8,7 @@ export default function About() {
         <div className="container mx-auto flex items-center justify-between p-4">
           {/* Logo Section */}
           <div className="flex items-center gap-2">
-            <img src="/pokeball.png" alt="Pokeball" className="w-10 h-10" />
+            <img src="pokeball.png" alt="Pokeball" className="w-10 h-10" />
             <h1 className="text-2xl font-bold">Pokédex</h1>
           </div>
           <nav>
