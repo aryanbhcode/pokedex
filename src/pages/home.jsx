@@ -9,6 +9,7 @@ export default function Home() {
   const [selected, setSelected] = useState("none");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 20;
+  const [selectedPokemon, setSelectedPokemon] = useState(null);
 
   const [favorite, setFavorite] = useState(() => {
     const data = localStorage.getItem("synced_favorites");
@@ -219,7 +220,8 @@ export default function Home() {
             paginatedPokemon.map((p) => (
               <div
                 key={p.id}
-                className="bg-gray-800 rounded-lg shadow-md p-4 hover:scale-105 transition-transform relative"
+                className="bg-gray-800 rounded-lg shadow-md p-4 hover:scale-105 transition-transform relative cursor-pointer"
+                onClick={() => setSelectedPokemon(p)}
               >
                 <div className="flex flex-col items-center mt-6">
                   <img src={p.image} alt={p.name} className="w-36 h-36 mb-3" />
@@ -228,7 +230,10 @@ export default function Home() {
                   </h4>
                   <p className="text-sm text-gray-300">#{p.id}</p>
                   <button
-                    onClick={() => toggleFavorite(p.id)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleFavorite(p.id);
+                    }}
                     className={`absolute top-2 right-2 text-2xl cursor-pointer ${
                       favorite.includes(p.id)
                         ? "text-yellow-400"
@@ -287,6 +292,85 @@ export default function Home() {
             ))
           )}
         </div>
+        {selectedPokemon && (
+          <div
+            className="fixed inset-0 bg-black/70 flex items-center justify-center z-50"
+            onClick={() => setSelectedPokemon(null)}
+          >
+            <div
+              className="bg-gray-800 p-6 rounded-xl max-w-md w-full relative"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Close button */}
+              <button
+                className="absolute top-2 right-2 text-red-500 text-xl cursor-pointer"
+                onClick={() => setSelectedPokemon(null)}
+              >
+                ✖
+              </button>
+
+              {/* Pokémon Image */}
+              <img
+                src={selectedPokemon.image}
+                alt={selectedPokemon.name}
+                className="w-32 h-32 mx-auto"
+              />
+
+              {/* Pokémon Name */}
+              <h2 className="text-2xl font-bold text-center capitalize mt-4">
+                {selectedPokemon.name}
+              </h2>
+
+              {/* Basic Info */}
+              <p className="text-center text-gray-300">
+                Height: {selectedPokemon.height / 10} m | Weight:{" "}
+                {selectedPokemon.weight / 10} kg
+              </p>
+
+              {/* Types */}
+              <div className="mt-4">
+                <h3 className="text-lg font-semibold">Types:</h3>
+                <div className="flex flex-wrap gap-2 mt-2">
+                  {selectedPokemon.types.map((type, idx) => (
+                    <span
+                      key={idx}
+                      className={`${
+                        typeColors[type] || "bg-gray-400"
+                      } text-black text-sm px-2 py-1 rounded`}
+                    >
+                      {type}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Abilities */}
+              <div className="mt-4">
+                <h3 className="text-lg font-semibold">Abilities:</h3>
+                <ul className="list-disc list-inside text-gray-300">
+                  {selectedPokemon.abilities.map((ability, idx) => (
+                    <li key={idx} className="capitalize">
+                      {ability}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Stats */}
+              <div className="mt-4">
+                <h3 className="text-lg font-semibold">Stats:</h3>
+                <ul className="text-gray-300">
+                  {selectedPokemon.stats.map((stat, idx) => (
+                    <li key={idx} className="capitalize">
+                      {stat.name}: {stat.value}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        )}
+
         <div className="flex justify-center items-center gap-4 mt-8">
           <button
             disabled={currentPage === 1}
